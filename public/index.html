@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Demo: Validación, Sanitización, Storage y Cookies httpOnly</title>
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!--
+    DOMPurify: librería de sanitización.
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+  <header class="wrap">
+    <h1>Demo Seguridad en Formularios (Front + Back)</h1>
+    <p class="muted">
+      Objetivo: practicar validación, sanitización, almacenamiento seguro y CORS.
+    </p>
+  </header>
+
+  <main class="wrap grid">
+    <!-- ========= FORMULARIO ========= -->
+    <section class="card">
+      <h2>Formulario</h2>
+
+      <form id="profileForm" novalidate>
+        <div class="field">
+          <label for="name">Nombre (solo letras y espacios)</label>
+          <input id="name" name="name" type="text" autocomplete="name"
+                 placeholder="Ej: Ana López" />
+          <small class="hint">Regex + limpieza (trim + colapsar espacios)</small>
+          <div class="error" id="errName"></div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email"
+                 placeholder="ana@ejemplo.com" />
+          <small class="hint">Validación con regex + normalización (lowercase)</small>
+          <div class="error" id="errEmail"></div>
+        </div>
+
+        <div class="field">
+          <label for="comment">Comentario (permitimos HTML limitado)</label>
+          <textarea id="comment" name="comment" rows="5"
+                    placeholder="Prueba a pegar: &lt;img src=x onerror=alert(1)&gt;"></textarea>
+          <small class="hint">
+            Aquí veremos diferencia entre: escape vs sanitización.
+          </small>
+          <div class="error" id="errComment"></div>
+        </div>
+
+        <div class="row">
+          <button type="submit">Guardar y enviar</button>
+          <button type="button" id="btnReset" class="secondary">Limpiar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ========= RESULTADOS ========= -->
+    <section class="card">
+      <h2>Vista previa / Debug</h2>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="preview">Preview</button>
+        <button class="tab" data-tab="storage">Storage</button>
+        <button class="tab" data-tab="auth">Cookie httpOnly</button>
+      </div>
+
+      <div class="panel" id="panel-preview">
+        <p class="muted">Salida “segura” (sanitizada) para mostrar en el DOM:</p>
+        <div class="box" id="safePreview"></div>
+
+        <p class="muted">Salida “escapada” (texto literal, no HTML):</p>
+        <pre class="box" id="escapedPreview"></pre>
+      </div>
+
+      <div class="panel hidden" id="panel-storage">
+        <h3>Almacenamiento</h3>
+        <ul>
+          <li><b>localStorage</b>: datos NO sensibles (persisten).</li>
+          <li><b>sessionStorage</b>: sesiones breves (se borra al cerrar pestaña).</li>
+          <li><b>Cookies httpOnly</b>: NO accesibles desde JS (solo servidor).</li>
+        </ul>
+
+        <div class="row">
+          <button type="button" id="btnLoadLocal" class="secondary">Cargar localStorage</button>
+          <button type="button" id="btnLoadSession" class="secondary">Cargar sessionStorage</button>
+          <button type="button" id="btnClearStorage" class="danger">Borrar Storage</button>
+        </div>
+
+        <pre class="box" id="storageDump"></pre>
+      </div>
+
+      <div class="panel hidden" id="panel-auth">
+        <h3>Cookie httpOnly (demo)</h3>
+        <p class="muted">
+          El servidor puede crear una cookie de sesión <b>httpOnly</b>.
+          JavaScript NO puede leerla (protege frente a XSS). Sí viaja en las requests.
+        </p>
+
+        <div class="row">
+          <button type="button" id="btnLogin" class="secondary">Simular login</button>
+          <button type="button" id="btnWhoAmI" class="secondary">/api/whoami</button>
+          <button type="button" id="btnLogout" class="danger">Logout</button>
+        </div>
+
+        <pre class="box" id="authDump"></pre>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap muted">
+    <p>
+      Nota: en producción, usa <b>HTTPS</b> y configura CORS desde el servidor.
+    </p>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
