@@ -185,3 +185,17 @@ const form = $("#profileForm");
 
 // Seleccionamos el botón de reset
 const btnReset = $("#btnReset");
+// Contenedores para mostrar mensajes de error por campo
+const errName = $("#errName");
+const errEmail = $("#errEmail");
+const errComment = $("#errComment");
+
+// Zonas donde se muestran resultados
+const safePreview = $("#safePreview");       // preview con HTML (sanitizado)
+const escapedPreview = $("#escapedPreview"); // preview literal (texto)
+
+// Sistema de pestañas
+const tabs = document.querySelectorAll(".tab");
+const panelPreview = $("#panel-preview");
+const panelStorage = $("#panel-storage");
+const panelAuth = $("#panel-auth");
