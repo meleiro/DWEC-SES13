@@ -472,7 +472,7 @@ form.addEventListener("submit", async (ev) => {
     // Mostramos respuesta del servidor
     safePreview.insertAdjacentHTML(
       "beforeend",
-      `<p><b>Servidor:</b> ✅ Guardado</p>`
+      `<p><b>Servidor:</b> Guardado</p>`
     );
     safePreview.insertAdjacentHTML(
       "beforeend",
