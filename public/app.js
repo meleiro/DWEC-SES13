@@ -481,7 +481,7 @@ form.addEventListener("submit", async (ev) => {
   } catch (e) {
     safePreview.insertAdjacentHTML(
       "beforeend",
-      `<p><b>Servidor:</b> ❌ Error</p>`
+      `<p><b>Servidor:</b>Error</p>`
     );
     safePreview.insertAdjacentHTML(
       "beforeend",
